@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AndroidLabs</string>
+    <string name="toast_message">L_étiquette a été mise à jour</string> <!-- French translation of "Label has been updated" -->
+    <string name="checkbox_message">La case est maintenant %1$s</string> <!-- French translation of "The checkbox is now %1$s" -->
+    <string name="undo">Annuler</string> <!-- French translation of "Undo" -->
+    <string name="i_love_android">J_aime Android</string> <!-- French translation of "I love Android" -->
+    <string name="switch_on_off">Commuter marche/arrêt</string> <!-- French translation of "Switch on/off" -->
+    <string name="check_this_out">Vérifiez ceci !</string> <!-- French translation of "Check this out!" -->
+</resources>
