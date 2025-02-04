@@ -1,60 +1,57 @@
 package com.example.androidlabs;
 
 
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import androidx.annotation.Nullable;
+import android.widget.ListView;
+import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText editTextName;
-    private static final int REQUEST_CODE = 1;
+    private List<ToDoItem> toDoList = new ArrayList<>();
+    private ToDoAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextName = findViewById(R.id.editTextName);
-        Button buttonNext = findViewById(R.id.buttonNext);
+        ListView listView = findViewById(R.id.todoListView);
+        EditText editText = findViewById(R.id.todoEditText);
+        Switch urgentSwitch = findViewById(R.id.urgentSwitch);
+        Button addButton = findViewById(R.id.addButton);
 
-        // Load saved name from SharedPreferences
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        editTextName.setText(prefs.getString("savedName", ""));
+        adapter = new ToDoAdapter(this, toDoList);
+        listView.setAdapter(adapter);
 
-        buttonNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = editTextName.getText().toString();
-                Intent intent = new Intent(MainActivity.this, NameActivity.class);
-                intent.putExtra("userName", name);
-                startActivityForResult(intent, REQUEST_CODE);
+        addButton.setOnClickListener(v -> {
+            String text = editText.getText().toString().trim();
+            if (!text.isEmpty()) {
+                toDoList.add(new ToDoItem(text, urgentSwitch.isChecked()));
+                adapter.notifyDataSetChanged();
+                editText.setText("");
             }
         });
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("savedName", editTextName.getText().toString());
-        editor.apply();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == 0) {
-                editTextName.setText("");  // Clear input if the user wants to change the name
-            } else if (resultCode == 1) {
-                finish();  // Close the app if the user is happy with their name
-            }
-        }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Do you want to delete this?")
+                    .setMessage("The selected row is " + position)
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        toDoList.remove(position);
+                        adapter.notifyDataSetChanged();
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        });
     }
 }
+
+
+
