@@ -6,21 +6,21 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter your name"
+        android:text="/Welcome"
         android:textSize="18sp"/>
 
-    <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter name hint"/>
-
     <Button
-        android:id="@+id/buttonNext"
+        android:id="@+id/buttonDontCallMeThat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"/>
+        android:text="Dont call me that"/>
+
+    <Button
+        android:id="@+id/buttonThankYou"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thank you"/>
 </LinearLayout>

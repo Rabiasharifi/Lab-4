@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AndroidLabs</string>
-    <string name="toast_message">L_étiquette a été mise à jour</string> <!-- French translation of "Label has been updated" -->
-    <string name="checkbox_message">La case est maintenant %1$s</string> <!-- French translation of "The checkbox is now %1$s" -->
-    <string name="undo">Annuler</string> <!-- French translation of "Undo" -->
-    <string name="i_love_android">J_aime Android</string> <!-- French translation of "I love Android" -->
-    <string name="switch_on_off">Commuter marche/arrêt</string> <!-- French translation of "Switch on/off" -->
-    <string name="check_this_out">Vérifiez ceci !</string> <!-- French translation of "Check this out!" -->
+    <string name="app_name">Android Labs</string>
+    <string name="Enter_your_name">Enter your name</string>
+    <string name="Enter_name_hint">Type your name here...</string>
+    <string name="Next">NEXT</string>
+    <string name="Welcome">Welcome!</string>
+    <string name="Dont_call_me_that">DON T CALL ME THAT</string>
+    <string name="Thank_you">THANK YOU</string>
 </resources>
