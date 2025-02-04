@@ -1,58 +1,60 @@
 package com.example.androidlabs;
 
+
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
-
-    private TextView textView;
-    private Button button;
-    private EditText editText;
-    private CheckBox checkBox;
-    private Switch switchButton;
-    private ImageButton imageButton;
+    private EditText editTextName;
+    private static final int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_linear);  // Using LinearLayout layout
+        setContentView(R.layout.activity_main);
 
-        // Initialize UI elements
-        textView = findViewById(R.id.textView);
-        button = findViewById(R.id.button);
-        editText = findViewById(R.id.editText);
-        checkBox = findViewById(R.id.checkBox);
-        switchButton = findViewById(R.id.switchButton);
-        imageButton = findViewById(R.id.imageButton);
+        editTextName = findViewById(R.id.editTextName);
+        Button buttonNext = findViewById(R.id.buttonNext);
 
-        // Button click listener to update TextView and show Toast
-        button.setOnClickListener(view -> {
-            String inputText = editText.getText().toString();
-            textView.setText(inputText);
+        // Load saved name from SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        editTextName.setText(prefs.getString("savedName", ""));
 
-            // Show a Toast with translated message
-            // Access French resource strings
-            String toastMessage = getResources().getString(R.string.toast_message);
-
-            Toast.makeText(MainActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
+        buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = editTextName.getText().toString();
+                Intent intent = new Intent(MainActivity.this, NameActivity.class);
+                intent.putExtra("userName", name);
+                startActivityForResult(intent, REQUEST_CODE);
+            }
         });
+    }
 
-        // Checkbox change listener to show Snackbar with Undo action
-        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Dynamically create the message based on the checkbox state (on or off)
-            String snackMessage = getString(R.string.checkbox_message, isChecked ? "on" : "off");
-            Snackbar.make(findViewById(R.id.linearLayout), snackMessage, Snackbar.LENGTH_LONG)
-                    .setAction(getString(R.string.undo), v -> checkBox.setChecked(!isChecked))  // Undo action
-                    .show();
-        });
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("savedName", editTextName.getText().toString());
+        editor.apply();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == 0) {
+                editTextName.setText("");  // Clear input if the user wants to change the name
+            } else if (resultCode == 1) {
+                finish();  // Close the app if the user is happy with their name
+            }
+        }
     }
 }

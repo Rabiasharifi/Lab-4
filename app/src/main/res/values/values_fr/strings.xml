@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="App_name">Android Labs</string>
+    <string name="Enter_your_name">Entrez votre nom</string>
+    <string name="Enter_name_hint">Tapez votre nom ici...</string>
+    <string name="Next">SUIVANT</string>
+    <string name="Welcome">Bienvenue!</string>
+    <string name="Dont_call_me_that">NE M APPELEZ PAS COMME ÇA</string>
+    <string name="Thank_you">MERCI</string>
+</resources>
